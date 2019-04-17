@@ -160,6 +160,7 @@ mainContainer.addEventListener("click", (event) => {
         fetch(`${indexURL}/${songId}/remixes/${remixId}`, {
           method: "DELETE"
         })
+        console.log(event)
         event.target.parentNode.remove()
       }
     })
@@ -174,29 +175,21 @@ function renderSongs(){
     return `
           <div class="song-container">
             <h3>${song.song_name}
-              <button data-action="add-remix" data-id="${song.id}">Add a Remix</button>
+              <button class="circular tiny ui icon button" data-action="add-remix" data-id="${song.id}"><i class="fitted large orange plus icon"></i></button>
             </h3>
             <div class="remix-container">
             <ul>
               ${song.remixes.map((remix) => {
                     return `
-                            <li>
-                              ${remix.remix_name}<br>
-
-                              // <div class="ui labeled button" tabindex="0">
-                              //   <div class="ui purple button">
-                              //     <i class="heart icon"></i> Like
-                              //   </div>
-                              //   <a class="ui basic purple left pointing label">
-                              //     1,048
-                              //   </a>
-                              // </div>
-
-                                <button data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</button>
-                                <button data-action="add-to-playlist" data-id="${remix.id}">➕</button>
-                                <button data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</button>
-                                <button data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</button>
-                            </li>
+                            <div>
+                              ${remix.remix_name}
+                              <div class="ui mini basic icon buttons">
+                                <button class="ui mini button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
+                                <button class="ui mini button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
+                                <button class="ui mini button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
+                                <button class="ui mini button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button>
+                              </div>
+                            </div>
                           `
                   }).join("")
                 }
@@ -209,3 +202,15 @@ function renderSongs(){
 }
 
 });
+
+
+<div class="ui middle aligned divided list">
+  <div class="item">
+    <div class="right floated content">
+      <div class="ui button">Add</div>
+    </div>
+    <img class="ui avatar image" src="/images/avatar2/small/lena.png">
+    <div class="content">
+      Lena
+    </div>
+  </div>
