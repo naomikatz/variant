@@ -9,13 +9,14 @@ const mainContainer = document.querySelector('#main-container')
 let songs;
 
 
+
 //------------------------SHOW SONGS-------------------------------------
 function fetchSongs(){
 fetch(indexURL)
  .then(res => res.json())
  .then(songsArray => {
    songs = songsArray
-   renderSongs()
+   renderSongs(songs)
     })
   }
 
@@ -31,7 +32,6 @@ fetchSongs()
 //add a remix event listener
 
 mainContainer.addEventListener('click', (event) => {
-  console.log(event)
   if (event.target.parentNode.dataset.action === "add-remix"){
     console.log(event)
       mainContainer.innerHTML = ""
@@ -130,6 +130,7 @@ mainContainer.addEventListener("click", (event) => {
   if (event.target.dataset.action === "like") {
         const remixId = parseInt(event.target.dataset.id)
         const songId = parseInt(event.target.dataset.songid)
+        console.log(event)
         const songObject = songs.find(song => song.id === songId)
         const remixes = songObject.remixes
         const remixObject = remixes.find(remix => remix.id === remixId)
@@ -170,12 +171,12 @@ mainContainer.addEventListener("click", (event) => {
 
 //-------------------------HELPER FUNCTIONS-------------------------------------
 
-function renderSongs(){
+function renderSongs(songs){
   mainContainer.innerHTML = ""
   mainContainer.innerHTML = songs.map((song) => {
     // console.log(song)
     return `
-          <div class="ui orange raised very padded raised text container segment" class="song-container">
+          <div class="ui grey raised very padded raised container segment" class="song-container">
             <h3>${song.song_name}
               <button class="circular tiny ui icon button" data-action="add-remix" data-id="${song.id}"><i class="fitted large orange plus icon"></i></button>
             </h3>
@@ -209,3 +210,5 @@ function renderSongs(){
 }
 
 });
+
+//"ui orange raised very padded raised text container segment"
