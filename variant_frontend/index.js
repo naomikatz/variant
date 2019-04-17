@@ -176,7 +176,7 @@ function renderSongs(songs){
   mainContainer.innerHTML = songs.map((song) => {
     // console.log(song)
     return `
-          <div class="ui grey raised very padded raised container segment" class="song-container">
+
             <h3>${song.song_name}
               <button class="circular tiny ui icon button" data-action="add-remix" data-id="${song.id}"><i class="fitted large orange plus icon"></i></button>
             </h3>
@@ -188,10 +188,10 @@ function renderSongs(songs){
                               <div class="item">
                                 <div class="right floated content">
                                   <div class="ui mini basic icon buttons">
-                                    <button class="ui mini button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
-                                    <button class="ui mini button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
-                                    <button class="ui mini button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
-                                    <button class="ui mini button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button></div>
+                                    <button class="ui tiny grey basic button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
+                                    <button class="ui tiny grey basic button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
+                                    <button class="ui tiny grey basic button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
+                                    <button class="ui tiny grey basic button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button></div>
                                 </div>
                                 <div class="content">
                                 ${remix.remix_name}
@@ -203,7 +203,7 @@ function renderSongs(songs){
                 }
                 </div>
             </div>
-          </div>
+
             `
   }).join("")
 
@@ -212,3 +212,4 @@ function renderSongs(songs){
 });
 
 //"ui orange raised very padded raised text container segment"
+//        <div class="ui grey raised very padded raised container segment" class="song-container">
