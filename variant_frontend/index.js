@@ -7,6 +7,7 @@ const indexURL = 'http://localhost:3000/api/songs'
 const remixListDisplay = document.querySelector('.remix-list')
 const mainContainer = document.querySelector('#main-container')
 const navbar = document.querySelector('#navbar')
+const searchBar = document.querySelector('#search-input')
 let songs
 
 
@@ -20,6 +21,22 @@ fetch(indexURL)
    renderSongs()
     })
   }
+
+  searchBar.addEventListener('input', (event) => {
+    console.log(songs)
+      const userInput = event.target.value
+      fetch(indexURL)
+      .then(res => res.json())
+      .then(songsArray => {
+        const filteredSongs = songsArray.filter(song => song.song_name.includes(userInput))
+        console.log(filteredSongs)
+        mainContainer.innerHTML = ""
+        mainContainer.innerHTML = filteredSongs.map(song => {
+          return renderAsong(song)
+          console.log(song)
+        }).join("")
+      })
+  })
 
 fetchSongs()
 
@@ -216,9 +233,10 @@ function renderSongs(){
     // console.log(song)
     return `
 
-            <h3>${song.song_name}
-              <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button>
+            <h3>${song.song_name} - ${song.song_artist} <font size=2 color="grey">#${song.song_genre}</font>
+              <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button><br>
             </h3>
+
             <div class="remix-container">
             <div class="ui middle aligned divided list">
               ${song.remixes.map((remix) => {
@@ -227,13 +245,13 @@ function renderSongs(){
                               <div class="item">
                                 <div class="right floated content">
                                   <div class="ui basic icon buttons">
-                                    <button class="ui tiny grey basic button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
-                                    <button class="ui tiny grey basic button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
-                                    <button class="ui tiny grey basic button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
-                                    <button class="ui tiny grey basic button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button></div>
+                                    <button class="ui tiny white basic button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
+                                    <button class="ui tiny white basic button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
+                                    <button class="ui tiny white basic button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
+                                    <button class="ui tiny white basic button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button></div>
                                 </div>
                                 <div class="content">
-                                <i class="blue play icon"></i>${remix.remix_name}
+                                <i class="blue play icon"></i>${remix.remix_name}<br><font size=1 color="grey">#${remix.remix_genre}</font>
                                 </div>
                               </div>
 
@@ -248,6 +266,38 @@ function renderSongs(){
 
 }
 
+function renderAsong(song){
+  return `
+
+          <h3>${song.song_name} - ${song.song_artist} <font size=2 color="grey">#${song.song_genre}</font>
+            <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button><br>
+          </h3>
+
+          <div class="remix-container">
+          <div class="ui middle aligned divided list">
+            ${song.remixes.map((remix) => {
+                  return `
+
+                            <div class="item">
+                              <div class="right floated content">
+                                <div class="ui basic icon buttons">
+                                  <button class="ui tiny white basic button" data-action="like" data-id="${remix.id}" data-songid="${remix.song_id}">🍆 ${remix.remix_likes}</i></button>
+                                  <button class="ui tiny white basic button" data-action="add-to-playlist" data-id="${remix.id}"><i class="save outline icon"></i></button>
+                                  <button class="ui tiny white basic button" data-action="edit-remix" data-id="${remix.id}" data-songid="${remix.song_id}">🔧</i></button>
+                                  <button class="ui tiny white basic button" data-action="delete-remix" data-id="${remix.id}" data-songid="${remix.song_id}">❌</i></button></div>
+                              </div>
+                              <div class="content">
+                              <i class="blue play icon"></i>${remix.remix_name}<br><font size=1 color="grey">#${remix.remix_genre}</font>
+                              </div>
+                            </div>
+
+                        `
+                }).join("")
+              }
+              </div>
+          </div>
+          `
+          }
 });
 
 //"ui orange raised very padded raised text container segment"

@@ -32,11 +32,23 @@
   <div class="homepage">
     <video autoplay muted loop src="video.mp4">
             </video>
+<div id="parentmain">
+  <div class="ui fluid icon action input" id="search-form" class="" action="" method="">
+  <input id="search-input" type="text" placeholder="Search...">
+  <select class="ui compact selection dropdown">
+    <option selected="" value="all">All</option>
+    <option value="articles">Songs</option>
+    <option value="products">Artists</option>
+    <option value="products">Genres</option>
+  </select>
+</div><br />
     <div id="main-container">
+
       <div class="remix-list">
       </div>
     </div>
     </div>
+  </div>
   </div>
   </body>
   <style>
@@ -53,7 +65,7 @@
         object-position: center bottom;
         object-fit: cover;
       }
-    /* body {background-image: url("new.jpg"); */
+    /* body {background-image: url("charcoal.jpg"); */
           /* background-repeat: no-repeat; */
           /* position: absolute;
           top: 0;
@@ -66,7 +78,7 @@
           object-position: center;
           object-fit: cover;
           } */
-    #main-container {
+    #parentmain {
       position: relative;
       background: rgba(255, 255, 255,0.90);
       box-shadow: 5px 5px 5px 1px rgba(0,0,0,0.4);
