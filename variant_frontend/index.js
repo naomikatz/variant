@@ -91,13 +91,45 @@ mainContainer.addEventListener('submit', (event) => {
 
   }
 
+  if (event.target.dataset.action === "edit-remix-form"){
+    console.log(event.target)
+    const remixId = parseInt(event.target.dataset.id)
+    const songId = parseInt(event.target.dataset.songid)
+    console.log(event)
+    const songObject = songs.find(song => song.id === songId)
+    const remixes = songObject.remixes
+    const remixObject = remixes.find(remix => remix.id === remixId)
+    const remixName = event.target.elements[0].value
+    const remixGenre = event.target.elements[1].value
+    const remixArtist = event.target.elements[2].value
+    const remixURL = event.target.elements[3].value
+    const remixLikes = remixObject.likes
+
+    fetch(`${indexURL}/${songId}/remixes/${remixId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        song_id: event.target.dataset.id,
+        remix_name: remixName,
+        remix_genre: remixGenre,
+        remix_artist: remixArtist,
+        remix_url: remixURL,
+        remix_likes: remixLikes
+      })
+    })
+    .then(response => response.json())
+    .then(fetchSongs)
+  }
+
+
 if (event.target.dataset.action === "add-song-form"){
   console.log(event.target.elements)
   const songName = event.target.elements[0].value
   const songGenre = event.target.elements[1].value
   const songArtist = event.target.elements[2].value
   const songURL = event.target.elements[3].value
-
 
   fetch(indexURL, {
     method: 'post',
@@ -133,53 +165,26 @@ mainContainer.addEventListener('click', (event) => {
       `
   }
 //-------------------------EDIT REMIX-------------------------------------------
-//
-// mainContainer.addEventListener('click', (event) => {
-//   if (event.target.dataset.action === "edit-remix"){
-//       remixListDisplay.innerHTML = ""
-//       remixListDisplay.innerHTML = `
-//         <form data-action="edit-remix-form" data-id="${event.target.dataset.id}">
-//           <input type="text" placeholder="Remix Name" value="">
-//           <input type="text" placeholder="Remix Genre" value="">
-//           <input type="text" placeholder="Remix Artist" value="">
-//           <input type="text" placeholder="Remix URL" value="">
-//           <input type="submit">
-//         </form>
-//       `
-//   }
-// })
-
-// mainRemixContainer.addEventListener('submit', (event) => {
-//   event.preventDefault()
-//   if (event.target.dataset.action === "submit-remix-form"){
-//     const remixName = event.target.elements[0].value
-//     const remixGenre = event.target.elements[1].value
-//     const remixArtist = event.target.elements[2].value
-//     const remixURL = event.target.elements[3].value
-//
-//     fetch(`${indexURL}/${event.target.dataset.id}/remixes`, {
-//       method: 'post',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         song_id: event.target.dataset.id,
-//         remix_name: remixName,
-//         remix_genre: remixGenre,
-//         remix_artist: remixArtist,
-//         remix_url: remixURL,
-//         remix_likes: 0
-//       })
-//     })
-//     .then(response => response.json())
-//     // .then(data => renderSongs(data))
-//     .then(renderSongs())
-//       }
-//     })
 
 
-
-
+  if (event.target.dataset.action === "edit-remix"){
+    const remixId = parseInt(event.target.dataset.id)
+    const songId = parseInt(event.target.dataset.songid)
+    console.log(event)
+    const songObject = songs.find(song => song.id === songId)
+    const remixes = songObject.remixes
+    const remixObject = remixes.find(remix => remix.id === remixId)
+      mainContainer.innerHTML = ""
+      mainContainer.innerHTML = `
+        <form data-action="edit-remix-form" data-id="${event.target.dataset.id}" data-songid="${remixObject.song_id}">
+          <input type="text" placeholder="Remix Name" value="${remixObject.remix_name}">
+          <input type="text" placeholder="Remix Genre" value="${remixObject.remix_genre}">
+          <input type="text" placeholder="Remix Artist" value="${remixObject.remix_artist}">
+          <input type="text" placeholder="Remix URL" value="${remixObject.remix_URL}">
+          <input type="submit">
+        </form>
+      `
+  }
 
 //-------------------------LIKE REMIX-------------------------------------------
 
@@ -234,7 +239,9 @@ function renderSongs(){
     return `
 
             <h3>${song.song_name} - ${song.song_artist} <font size=2 color="grey">#${song.song_genre}</font>
-              <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button><br>
+              <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button>
+              <button class="circular tiny ui icon button"><i class="fitted large orange wrench icon" data-action="edit-song" data-id="${song.id}"></i></button>
+              <button class="circular tiny ui icon button"><i class="fitted large orange minus icon" data-action="delete-song" data-id="${song.id}"></i></button><br>
             </h3>
 
             <div class="remix-container">
@@ -270,7 +277,9 @@ function renderAsong(song){
   return `
 
           <h3>${song.song_name} - ${song.song_artist} <font size=2 color="grey">#${song.song_genre}</font>
-            <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button><br>
+            <button class="circular tiny ui icon button"><i class="fitted large orange plus icon" data-action="add-remix" data-id="${song.id}"></i></button>
+            <button class="circular tiny ui icon button"><i class="fitted large orange wrench icon" data-action="edit-song" data-id="${song.id}"></i></button>
+            <button class="circular tiny ui icon button"><i class="fitted large orange minus icon" data-action="delete-song" data-id="${song.id}"></i></button><br>
           </h3>
 
           <div class="remix-container">
